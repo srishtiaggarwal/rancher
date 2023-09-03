@@ -1,0 +1,21 @@
+apiVersion: elemental.cattle.io/v1beta1
+kind: SeedImage
+metadata:
+  name: my-nodes
+  namespace: fleet-default
+spec:
+  baseImage: https://download.opensuse.org/repositories/isv:/Rancher:/Elemental:/Stable:/Teal53/media/iso/elemental-teal.x86_64.iso
+  cloud-config:
+    write_files:
+      - content: |
+          install:
+            extra-partitions:
+              - size: 1024
+                fs: ext4
+                label: EXTRA_PART
+        path: /etc/elemental/config.yaml
+  registrationRef:
+    apiVersion: elemental.cattle.io/v1beta1
+    kind: MachineRegistration
+    name: my-nodes
+    namespace: fleet-default
